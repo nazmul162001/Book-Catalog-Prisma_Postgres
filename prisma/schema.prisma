@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      String 
+  contactNo String
+  address   String
+  profileImg String
+  reviewAndRatings ReviewAndRating[]
+  orders Order[]
+
+  @@map("users")
+}
+
+// Category model
+model Category {
+  id    String    @id @default(uuid())
+  title String
+  books Book[]
+
+  @@map("categories")
+}
+
+// Book model
+model Book {
+  id              String    @id @default(uuid())
+  title           String
+  author          String
+  price           Float
+  genre           String
+  publicationDate String
+  categoryId      String
+  category        Category  @relation(fields: [categoryId], references: [id])
+  reviews         ReviewAndRating[]
+  orderBooks OrderedBook[]
+
+  @@map("books")
+}
+
+// ReviewAndRating model
+model ReviewAndRating {
+  id      String @id @default(uuid())
+  review  String
+  rating  Int
+  userId  String
+  bookId  String
+  user    User   @relation(fields: [userId], references: [id])
+  book    Book   @relation(fields: [bookId], references: [id])
+
+  @@map("reviewAndRatings")
+}
+
+model Order {
+  id           String     @id @default(uuid())
+  userId       String
+  orderedBooks String
+  status       String     @default("pending")
+  createdAt    DateTime   @default(now()) 
+  user         User       @relation(fields: [userId], references: [id])
+  ordersBooks OrderedBook[]
+
+  @@map("orders")
+}
+
+
+model OrderedBook {
+  id        String   @id @default(uuid())
+  orderId   String
+  bookId    String
+  quantity  Int
+  order     Order    @relation(fields: [orderId], references: [id])
+  book      Book     @relation(fields: [bookId], references: [id])
+
+  @@map("orderBooks")
+}
