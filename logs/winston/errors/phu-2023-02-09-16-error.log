@@ -1,0 +1,11 @@
+Sat Sep 02 2023 16:43:42 } [PH] error: 
+Invalid `prisma.category.create()` invocation:
+
+{
+  data: {
+    titlee: "Adventure",
++   title: String
+  }
+}
+
+Argument `title` is missing.
