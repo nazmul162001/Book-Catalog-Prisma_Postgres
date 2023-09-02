@@ -6,6 +6,11 @@ const router = express.Router();
 
 router.get('/', CategoryController.getAllCategory);
 router.get('/:id', CategoryController.getSingleCategory);
+router.delete(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN),
+  CategoryController.deleteCategory
+);
 router.patch(
   '/:id',
   auth(ENUM_USER_ROLE.ADMIN),
