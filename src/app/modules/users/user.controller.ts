@@ -28,7 +28,6 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-
 // get all users
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   const users = await UserService.getAllUsers();
@@ -40,9 +39,30 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// get single user
+const getSingleUser = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await UserService.getSingleUser(id);
+
+  if (!user) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: 'User Not Found',
+    });
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User retrieved successfully',
+    data: user,
+  });
+});
 
 export const UserController = {
   createUser,
   loginUser,
-  getAllUsers
+  getAllUsers,
+  getSingleUser,
 };

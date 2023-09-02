@@ -1,11 +1,11 @@
 import { User } from '@prisma/client';
+import { Secret } from 'jsonwebtoken';
+import config from '../../../config';
+import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import prisma from '../../../shared/prisma';
 import { ILoginUser } from './user.interface';
-import { jwtHelpers } from '../../../helpers/jwtHelpers';
-import config from '../../../config';
-import { Secret } from 'jsonwebtoken';
 
-// sign-up or create user 
+// sign-up or create user
 const createUser = async (data: User): Promise<User> => {
   const result = await prisma.user.create({
     data,
@@ -14,7 +14,7 @@ const createUser = async (data: User): Promise<User> => {
   return result;
 };
 
-// sign-in in login user 
+// sign-in in login user
 const loginUser = async (payload: ILoginUser) => {
   const { email, password } = payload;
 
@@ -26,7 +26,7 @@ const loginUser = async (payload: ILoginUser) => {
   });
 
   if (isUserExist === undefined || isUserExist === null || !isUserExist) {
-    throw new Error("User Does Not Exist");
+    throw new Error('User Does Not Exist');
   }
 
   //create access token
@@ -37,21 +37,30 @@ const loginUser = async (payload: ILoginUser) => {
     config.jwt.expires_in as string
   );
 
-
   return {
     token,
   };
 };
 
-
-// get all users 
+// get all users
 const getAllUsers = async (): Promise<User[]> => {
   const users = await prisma.user.findMany();
   return users;
 };
 
+// get single user
+const getSingleUser = async (id: string): Promise<User | null> => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+  return user;
+};
+
 export const UserService = {
   createUser,
   loginUser,
-  getAllUsers
+  getAllUsers,
+  getSingleUser,
 };
