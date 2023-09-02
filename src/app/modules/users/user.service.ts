@@ -5,6 +5,7 @@ import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import config from '../../../config';
 import { Secret } from 'jsonwebtoken';
 
+// sign-up or create user 
 const createUser = async (data: User): Promise<User> => {
   const result = await prisma.user.create({
     data,
@@ -13,6 +14,7 @@ const createUser = async (data: User): Promise<User> => {
   return result;
 };
 
+// sign-in in login user 
 const loginUser = async (payload: ILoginUser) => {
   const { email, password } = payload;
 
@@ -41,7 +43,15 @@ const loginUser = async (payload: ILoginUser) => {
   };
 };
 
+
+// get all users 
+const getAllUsers = async (): Promise<User[]> => {
+  const users = await prisma.user.findMany();
+  return users;
+};
+
 export const UserService = {
   createUser,
-  loginUser
+  loginUser,
+  getAllUsers
 };
