@@ -69,6 +69,11 @@
             "date": 1693674003273,
             "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\successes\\phu-2023-02-09-23-success.log",
             "hash": "7f73de8164c11c738a6a8ed40374d0e22d49db44bacfe987708ee3b50c5503bc"
+        },
+        {
+            "date": 1693677662538,
+            "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\successes\\phu-2023-03-09-00-success.log",
+            "hash": "49392ef587698a269aed9d89d066de56f34e8ec6860a371b8dfcccbc81e6e741"
         }
     ],
     "hashType": "sha256"
