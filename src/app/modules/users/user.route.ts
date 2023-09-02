@@ -18,6 +18,12 @@ router.patch(
   UserController.updateSingleUser
 );
 
+router.delete(
+  '/users/:id',
+  auth(ENUM_USER_ROLE.ADMIN),
+  UserController.deleteSingleUser
+);
+
 // authentication
 router.post('/signup', UserController.createUser);
 router.post('/signin', UserController.loginUser);

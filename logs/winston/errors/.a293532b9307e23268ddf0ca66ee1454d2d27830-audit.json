@@ -44,6 +44,11 @@
             "date": 1693627368585,
             "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\errors\\phu-2023-02-09-10-error.log",
             "hash": "a6d89e221001ad74010a008c32b5f2e6b8efc5838228ad97725cc5ced9e2cb20"
+        },
+        {
+            "date": 1693630801366,
+            "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\errors\\phu-2023-02-09-11-error.log",
+            "hash": "8be6c2cc2613f8a126510e656b51a4315d4c459e655165b915ee67f905aa4a4e"
         }
     ],
     "hashType": "sha256"

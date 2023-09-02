@@ -83,10 +83,33 @@ const updateSingleUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// delete single user
+const deleteSingleUser = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await UserService.getSingleUser(id);
+  if (!user) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: 'User Does Not Exist',
+      data: user,
+    });
+  }
+  await UserService.deleteSingleUser(id);
+  
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User Delete successfully',
+    data: user,
+  });
+});
+
 export const UserController = {
   createUser,
   loginUser,
   getAllUsers,
   getSingleUser,
   updateSingleUser,
+  deleteSingleUser,
 };

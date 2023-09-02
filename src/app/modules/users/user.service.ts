@@ -72,10 +72,21 @@ const updateSingleUser = async (
   return updateUser;
 };
 
+// delete Single user
+const deleteSingleUser = async (id: string): Promise<User | null> => {
+  const deleteUser = await prisma.user.delete({
+    where: {
+      id,
+    },
+  });
+  return deleteUser;
+};
+
 export const UserService = {
   createUser,
   loginUser,
   getAllUsers,
   getSingleUser,
   updateSingleUser,
+  deleteSingleUser,
 };
