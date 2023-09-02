@@ -4,6 +4,7 @@ import auth from '../../middlewares/auth';
 import { CategoryController } from './category.controller';
 const router = express.Router();
 
+router.get('/', CategoryController.getAllCategory);
 router.post(
   '/create-category',
   auth(ENUM_USER_ROLE.ADMIN),
