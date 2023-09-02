@@ -9,6 +9,36 @@
             "date": 1693574247234,
             "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\successes\\phu-2023-01-09-19-success.log",
             "hash": "ffefa8229d3a16a17436fefdffe821330c2b81ed9eee416e1809b0c5f553e07f"
+        },
+        {
+            "date": 1693577517148,
+            "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\successes\\phu-2023-01-09-20-success.log",
+            "hash": "9cdfe9214d1ed427570ee59b03e8aa096fe69fefbe268103b9cc2260045e1322"
+        },
+        {
+            "date": 1693583296752,
+            "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\successes\\phu-2023-01-09-21-success.log",
+            "hash": "26ce30ed3d17110344cf690efd53fc0ab34f322e7d9571e9027beecd7753eb14"
+        },
+        {
+            "date": 1693586659124,
+            "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\successes\\phu-2023-01-09-22-success.log",
+            "hash": "3bb90cd561859b75df53b37008156825718212ffe9082c33142483962ab68865"
+        },
+        {
+            "date": 1693587784066,
+            "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\successes\\phu-2023-01-09-23-success.log",
+            "hash": "8db5b86a1f0d126866879eaa2c7fc3739dc8ed481545f16bf730dafb6f22f2aa"
+        },
+        {
+            "date": 1693591208586,
+            "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\successes\\phu-2023-02-09-00-success.log",
+            "hash": "a215c44b750511105dee1f4e72e0dbdf329d6c55d2170b5968f6c6dc827a9eb5"
+        },
+        {
+            "date": 1693626628703,
+            "name": "P:\\NEXT-LEVEL\\Assignment\\assignment_8_Prisma-postgres\\logs\\winston\\successes\\phu-2023-02-09-09-success.log",
+            "hash": "aae9ef2156f49b9a3908b8b65ba74ec572d75915b339e7f64e100cf40d886799"
         }
     ],
     "hashType": "sha256"
