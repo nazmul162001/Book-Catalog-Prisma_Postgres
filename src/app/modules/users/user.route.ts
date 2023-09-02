@@ -12,6 +12,12 @@ router.get(
   UserController.getSingleUser
 );
 
+router.patch(
+  '/users/:id',
+  auth(ENUM_USER_ROLE.ADMIN),
+  UserController.updateSingleUser
+);
+
 // authentication
 router.post('/signup', UserController.createUser);
 router.post('/signin', UserController.loginUser);

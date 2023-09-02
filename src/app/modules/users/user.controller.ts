@@ -60,9 +60,33 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// update single user
+const updateSingleUser = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { body } = req;
+  const updateUser = await UserService.updateSingleUser(id, body);
+  const user = await UserService.getSingleUser(id);
+
+  if (!updateUser) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: 'User not found',
+    });
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User Updated successfully',
+    data: user,
+  });
+});
+
 export const UserController = {
   createUser,
   loginUser,
   getAllUsers,
   getSingleUser,
+  updateSingleUser,
 };
