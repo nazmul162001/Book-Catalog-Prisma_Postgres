@@ -82,6 +82,33 @@ const deleteSingleUser = async (id: string): Promise<User | null> => {
   return deleteUser;
 };
 
+// get user profile
+const getUserProfile = async (id: string, role: string) => {
+  try {
+    const user = await prisma.user.findMany({
+      where: {
+        id,
+        role,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        contactNo: true,
+        address: true,
+        profileImg: true,
+      },
+    });
+
+    if (user) {
+      return user;
+    }
+  } catch (error) {
+    throw new Error('User Does Not Exist');
+  }
+};
+
 export const UserService = {
   createUser,
   loginUser,
@@ -89,4 +116,5 @@ export const UserService = {
   getSingleUser,
   updateSingleUser,
   deleteSingleUser,
+  getUserProfile,
 };

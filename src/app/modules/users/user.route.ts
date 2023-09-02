@@ -6,6 +6,7 @@ const router = express.Router();
 
 // user routes
 router.get('/users', auth(ENUM_USER_ROLE.ADMIN), UserController.getAllUsers);
+router.get('/profile', UserController.getUserProfile);
 router.get(
   '/users/:id',
   auth(ENUM_USER_ROLE.ADMIN),

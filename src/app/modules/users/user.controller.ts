@@ -3,6 +3,10 @@ import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { UserService } from './user.service';
+import ApiError from '../../../errors/ApiError';
+import config from '../../../config';
+import { Secret } from 'jsonwebtoken';
+import { jwtHelpers } from '../../../helpers/jwtHelpers';
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const result = await UserService.createUser(req.body);
@@ -105,6 +109,42 @@ const deleteSingleUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+// get user profile 
+const getUserProfile = catchAsync(
+  async (req: Request, res: Response) => {
+    const token = req.headers.authorization
+
+    let verifiedToken = null
+    try {
+      verifiedToken = jwtHelpers.verifyToken(
+        token as string,
+        config.jwt.secret as Secret
+      )
+    } catch (error) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid access token')
+    }
+
+    const { id, role } = verifiedToken
+
+    // Match the userPhoneNumber and role with the User collection
+    const user = await UserService.getUserProfile(id, role)
+
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
+    }
+
+    sendResponse (res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "User's information retrieved successfully",
+      data: user,
+    })
+  }
+)
+
+
+
 export const UserController = {
   createUser,
   loginUser,
@@ -112,4 +152,5 @@ export const UserController = {
   getSingleUser,
   updateSingleUser,
   deleteSingleUser,
+  getUserProfile
 };
