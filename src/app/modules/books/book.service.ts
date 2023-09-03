@@ -3,7 +3,11 @@ import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { BookSearchAbleFields, IBookFilterRequest } from './book.interface';
+import {
+  BookSearchAbleFields,
+  IBookFilterRequest,
+  IPriceFilters,
+} from './book.interface';
 
 // create book
 const createBook = async (data: Book): Promise<Book | null> => {
@@ -23,18 +27,57 @@ const createBook = async (data: Book): Promise<Book | null> => {
 // get all books
 const getAllBooks = async (
   filters: IBookFilterRequest,
-  options: IPaginationOptions
+  options: IPaginationOptions,
+  priceQuery: IPriceFilters
 ): Promise<IGenericResponse<Book[]>> => {
-  const { page, limit, skip } = paginationHelpers.calculatePagination(options);
-  const { searchTerm, ...filtersData } = filters;
+  const { page, size, skip } = paginationHelpers.calculatePagination(options);
+  const { search, ...filtersData } = filters;
 
   const andConditions = [];
 
-  if (searchTerm) {
+  // price query
+
+  if (priceQuery.minPrice !== undefined && priceQuery.maxPrice !== undefined) {
+    const minPrice = Number(priceQuery.minPrice);
+    const maxPrice = Number(priceQuery.maxPrice);
+
+    if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+      andConditions.push({
+        price: {
+          gte: minPrice,
+          lte: maxPrice,
+        },
+      });
+    }
+  } else if (priceQuery.minPrice !== undefined) {
+    const minPrice = Number(priceQuery.minPrice);
+
+    if (!isNaN(minPrice)) {
+      andConditions.push({
+        price: {
+          gte: minPrice,
+        },
+      });
+    }
+  } else if (priceQuery.maxPrice !== undefined) {
+    const maxPrice = Number(priceQuery.maxPrice);
+
+    if (!isNaN(maxPrice)) {
+      andConditions.push({
+        price: {
+          lte: maxPrice,
+        },
+      });
+    }
+  }
+
+  // price query
+
+  if (search) {
     andConditions.push({
       OR: BookSearchAbleFields.map(field => ({
         [field]: {
-          contains: searchTerm,
+          contains: search,
           mode: 'insensitive',
         },
       })),
@@ -57,7 +100,7 @@ const getAllBooks = async (
   const books = await prisma.book.findMany({
     where: whereConditions,
     skip,
-    take: limit,
+    take: size,
     orderBy:
       options.sortBy && options.sortOrder
         ? {
@@ -75,11 +118,13 @@ const getAllBooks = async (
   // },
 
   const total = await prisma.book.count();
+  const totalPage = Math.ceil(total / size);
   return {
     meta: {
       total,
       page,
-      limit,
+      size,
+      totalPage,
     },
     data: books,
   };

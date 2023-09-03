@@ -1,16 +1,24 @@
 export type IBookFilterRequest = {
-  searchTerm?: string;
+  search?: string;
 };
 
-// for search 
+// for search
 export const BookSearchAbleFields = ['title', 'author', 'genre'];
 
-// for filter 
+// for filter
 export const BookFilterAbleFields = [
-  'searchTerm',
+  'search',
   'title',
   'author',
   'genre',
   'price',
   'categoryId',
 ];
+
+
+export type IPriceFilters = {
+  maxPrice?: number
+  minPrice?: number
+}
+
+export const PriceSearchableFields = ['maxPrice', 'minPrice']
