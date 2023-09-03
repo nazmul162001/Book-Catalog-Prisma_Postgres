@@ -62,14 +62,26 @@ model ReviewAndRating {
   @@map("reviewAndRatings")
 }
 
+// model Order {
+//   id           String     @id @default(uuid())
+//   userId       String
+//   orderedBooks String
+//   status       String     @default("pending")
+//   createdAt    DateTime   @default(now()) 
+//   user         User       @relation(fields: [userId], references: [id])
+//   ordersBooks OrderedBook[]
+
+//   @@map("orders")
+// }
+
 model Order {
-  id           String     @id @default(uuid())
+  id           String    @id @default(uuid())
   userId       String
-  orderedBooks String
-  status       String     @default("pending")
-  createdAt    DateTime   @default(now()) 
-  user         User       @relation(fields: [userId], references: [id])
-  ordersBooks OrderedBook[]
+  status       String    @default("pending")
+  createdAt    DateTime  @default(now())
+  orderedBooks Json[]
+
+  user         User    @relation(fields: [userId], references: [id])
 
   @@map("orders")
 }
@@ -80,7 +92,6 @@ model OrderedBook {
   orderId   String
   bookId    String
   quantity  Int
-  order     Order    @relation(fields: [orderId], references: [id])
   book      Book     @relation(fields: [bookId], references: [id])
 
   @@map("orderBooks")

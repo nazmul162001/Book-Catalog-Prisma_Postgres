@@ -1,7 +1,7 @@
 import express from 'express';
-import { UserRoutes } from '../modules/users/user.route';
-import { CategoryRoutes } from '../modules/category/category.route';
 import { BookRoutes } from '../modules/books/book.route';
+import { CategoryRoutes } from '../modules/category/category.route';
+import { UserRoutes } from '../modules/users/user.route';
 
 const router = express.Router();
 

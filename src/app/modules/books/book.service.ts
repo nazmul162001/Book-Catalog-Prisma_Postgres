@@ -1,5 +1,9 @@
-import { Book } from '@prisma/client';
+import { Book, Prisma } from '@prisma/client';
+import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
+import { BookSearchAbleFields, IBookFilterRequest } from './book.interface';
 
 // create book
 const createBook = async (data: Book): Promise<Book | null> => {
@@ -17,15 +21,68 @@ const createBook = async (data: Book): Promise<Book | null> => {
 };
 
 // get all books
-const getAllBooks = async () => {
+const getAllBooks = async (
+  filters: IBookFilterRequest,
+  options: IPaginationOptions
+): Promise<IGenericResponse<Book[]>> => {
+  const { page, limit, skip } = paginationHelpers.calculatePagination(options);
+  const { searchTerm, ...filtersData } = filters;
+
+  const andConditions = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      OR: BookSearchAbleFields.map(field => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive',
+        },
+      })),
+    });
+  }
+
+  if (Object.keys(filtersData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filtersData).map(key => ({
+        [key]: {
+          equals: (filtersData as any)[key],
+        },
+      })),
+    });
+  }
+
+  const whereConditions: Prisma.BookWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : {};
+
   const books = await prisma.book.findMany({
-    include: {
-      category: true,
-      reviews: true,
-      orderBooks: true,
-    },
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy:
+      options.sortBy && options.sortOrder
+        ? {
+            [options.sortBy]: options.sortOrder,
+          }
+        : {
+            // createdAt: 'desc',
+          },
   });
-  return books;
+
+  // include: {
+  //   category: true,
+  //   reviews: true,
+  //   orderBooks: true,
+  // },
+
+  const total = await prisma.book.count();
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: books,
+  };
 };
 
 // get single book
