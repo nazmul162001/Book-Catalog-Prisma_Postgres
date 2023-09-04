@@ -26,7 +26,7 @@ router.delete(
 );
 
 // authentication
-router.post('/signup', UserController.createUser);
-router.post('/signin', UserController.loginUser);
+// router.post('/signup', UserController.createUser);
+// router.post('/signin', UserController.loginUser);
 
 export const UserRoutes = router;

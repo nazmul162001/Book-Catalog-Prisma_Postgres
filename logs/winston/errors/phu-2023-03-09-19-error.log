@@ -1,0 +1,25 @@
+Sun Sep 03 2023 19:54:31 } [PH] error: 
+Invalid `prisma.order.create()` invocation:
+
+{
+  data: {
+    userId: "cf479a9e-38df-443d-89a9-7b88fa00a21b",
+    orderedBooks: {
+      createMany: {
+        data: [
+          {
+            bookId: "3181afdf-bc91-4384-a61a-8a72a5415d87",
+            quantity: 3
+          },
+          {
+            bookId: "67fcc5c1-87ca-4fcf-ad33-b32fda6c265d",
+            quantity: 2
+          }
+        ]
+      }
+    }
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  }
+}
+
+Argument `orderedBooks`: Invalid value provided. Expected String, provided Object.

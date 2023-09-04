@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,92 +10,86 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User model
 model User {
-  id        String    @id @default(uuid())
-  name      String
-  email     String
-  password  String
-  role      String 
-  contactNo String
-  address   String
-  profileImg String
+  id               String            @id @default(uuid())
+  name             String
+  email            String            @unique
+  password         String
+  role             UserRole
+  contactNo        String
+  address          String
+  profileImg       String
+  orders           Order[]
   reviewAndRatings ReviewAndRating[]
-  orders Order[]
 
   @@map("users")
 }
 
-
-// Category model
 model Category {
-  id    String    @id @default(uuid())
+  id    String @id @default(uuid())
   title String
   books Book[]
 
   @@map("categories")
 }
 
-// Book model
 model Book {
-  id              String    @id @default(uuid())
-  title           String
-  author          String
-  price           Float
-  genre           String
-  publicationDate String
-  categoryId      String
-  category        Category  @relation(fields: [categoryId], references: [id])
-  reviews         ReviewAndRating[]
-  orderBooks OrderedBook[]
+  id               String            @id @default(uuid())
+  title            String
+  author           String
+  price            Float
+  genre            String
+  publicationDate  String
+  categoryId       String
+  category         Category          @relation(fields: [categoryId], references: [id])
+  orderedBooks     OrderedBook[]
+  reviewAndRatings ReviewAndRating[]
 
   @@map("books")
 }
 
-// ReviewAndRating model
 model ReviewAndRating {
   id      String @id @default(uuid())
   review  String
-  rating  Int
-  userId  String
   bookId  String
-  user    User   @relation(fields: [userId], references: [id])
   book    Book   @relation(fields: [bookId], references: [id])
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
+  rating  Int
+  comment String
 
-  @@map("reviewAndRatings")
+  @@map("reviews_and_ratings")
 }
 
-// model Order {
-//   id           String     @id @default(uuid())
-//   userId       String
-//   orderedBooks String
-//   status       String     @default("pending")
-//   createdAt    DateTime   @default(now()) 
-//   user         User       @relation(fields: [userId], references: [id])
-//   ordersBooks OrderedBook[]
-
-//   @@map("orders")
-// }
-
 model Order {
-  id           String    @id @default(uuid())
+  id           String        @id @default(uuid())
   userId       String
-  status       String    @default("pending")
-  createdAt    DateTime  @default(now())
-  orderedBooks Json[]
-
-  user         User    @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
+  status       Status        @default(pending)
+  createdAt    DateTime      @default(now())
+  orderedBooks OrderedBook[]
 
   @@map("orders")
 }
 
-
 model OrderedBook {
-  id        String   @id @default(uuid())
-  orderId   String
-  bookId    String
-  quantity  Int
-  book      Book     @relation(fields: [bookId], references: [id])
+  id       String @id @default(uuid())
+  orderId  String
+  order    Order  @relation(fields: [orderId], references: [id])
+  bookId   String
+  book     Book   @relation(fields: [bookId], references: [id])
+  quantity Int
 
-  @@map("orderBooks")
+  @@map("ordered_books")
+}
+
+enum UserRole {
+  admin
+  customer
+}
+
+enum Status {
+  pending
+  shipped
+  delivered
 }

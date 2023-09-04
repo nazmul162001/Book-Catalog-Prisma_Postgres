@@ -17,8 +17,6 @@ const createBook = async (data: Book): Promise<Book | null> => {
     },
     include: {
       category: true,
-      reviews: true,
-      orderBooks: true,
     },
   });
   return book;
