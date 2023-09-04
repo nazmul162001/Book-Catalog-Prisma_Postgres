@@ -1,46 +1,7 @@
 import { User } from '@prisma/client';
-import { Secret } from 'jsonwebtoken';
-import config from '../../../config';
-import { jwtHelpers } from '../../../helpers/jwtHelpers';
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
 import prisma from '../../../shared/prisma';
-import { ILoginUser } from './user.interface';
-
-// sign-up or create user
-const createUser = async (data: User): Promise<User> => {
-  const result = await prisma.user.create({
-    data,
-  });
-
-  return result;
-};
-
-// sign-in in login user
-const loginUser = async (payload: ILoginUser) => {
-  const { email, password } = payload;
-
-  const isUserExist = await prisma.user.findMany({
-    where: {
-      email: email,
-      password: password,
-    },
-  });
-
-  if (isUserExist === undefined || isUserExist === null || !isUserExist) {
-    throw new Error('User Does Not Exist');
-  }
-
-  //create access token
-  const { id, role } = isUserExist[0];
-  const token = jwtHelpers.createToken(
-    { id, role },
-    config.jwt.secret as Secret,
-    config.jwt.expires_in as string
-  );
-
-  return {
-    token,
-  };
-};
 
 // get all users
 const getAllUsers = async (): Promise<User[]> => {
@@ -83,35 +44,21 @@ const deleteSingleUser = async (id: string): Promise<User | null> => {
 };
 
 // get user profile
-const getUserProfile = async (id: string, role: string) => {
-  try {
-    const user = await prisma.user.findMany({
-      where: {
-        id,
-        role,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        contactNo: true,
-        address: true,
-        profileImg: true,
-      },
-    });
+const getUserProfile = async (id: string): Promise<User> => {
+  const result = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
 
-    if (user) {
-      return user;
-    }
-  } catch (error) {
-    throw new Error('User Does Not Exist');
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Profile not found');
   }
+
+  return result;
 };
 
 export const UserService = {
-  createUser,
-  loginUser,
   getAllUsers,
   getSingleUser,
   updateSingleUser,
