@@ -136,8 +136,6 @@ const getSingleBook = async (id: string) => {
     },
     include: {
       category: true,
-      reviews: true,
-      orderBooks: true,
     },
   });
   return book;
@@ -151,8 +149,6 @@ const getBooksByCategoryId = async (categoryId: string) => {
     },
     include: {
       category: true,
-      reviews: true,
-      orderBooks: true,
     },
   });
   return books;
