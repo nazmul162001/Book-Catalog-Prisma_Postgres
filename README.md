@@ -1,69 +1,37 @@
-# University Management Core Service
-This guide will walk you through the process of setting up the University Management Core Service Starter project. By following these steps, you will clone the project, install dependencies, and configure Prisma for database management. Let's get started!
+# Book Catalog Backend Assignment-8 - Prisma | PostgreSQL | Node.js | Express.js
 
+## Live Link: https://assignment-8-prisma-postgres.vercel.app/
 
-## Installation Steps
-### Follow these steps to clone and set up starter project:
+### Application Routes:
 
-1. `Clone the project:` Open your terminal or command prompt and run the following command to clone the project repository:
+#### User
 
-```bash
-git clone https://github.com/Programming-Hero-Next-Level-Development/university-management-core-service-starter.git university-management-core-service
-```
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/auth/signup (POST)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/users (GET)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/users/d96b436e-7775-4403-afb0-84bd9ab8b55a (GET)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/users/d96b436e-7775-4403-afb0-84bd9ab8b55a (PATCH)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/users/d96b436e-7775-4403-afb0-84bd9ab8b55a (DELETE)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/profile (GET)
 
-2. `Navigate into the project directory:` Use the cd command to navigate into the project directory:
+### Category
 
-```bash
-cd university-management-core-service
-```
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/categories/create-category (POST)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/categories (GET)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/categories/0c611ee8-60fb-4beb-a902-b3aa09ddac9c (GET)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/categories/0c611ee8-60fb-4beb-a902-b3aa09ddac9c (PATCH)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/categories/0c611ee8-60fb-4beb-a902-b3aa09ddac9c (DELETE)
 
-3. `Install project dependencies:` Next, install the project dependencies by running the following command:
+### Books
 
-```bash
-yarn install
-```
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/books/create-book (POST)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/books (GET)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/books/0c611ee8-60fb-4beb-a902-b3aa09ddac9c/category (GET)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/books/b863628f-78db-4b15-a969-5cf8b4341321 (GET)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/books/b863628f-78db-4b15-a969-5cf8b4341321 (PATCH)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/books/b863628f-78db-4b15-a969-5cf8b4341321 (DELETE)
 
-4. Configure Prisma and the database connection:
+### Orders
 
-- Add Prisma as a development dependency by running the following command:
-```bash
-yarn add prisma --save-dev
-```
-
-- Set up your Prisma project by creating the Prisma schema file using the following command:
-```bash
-npx prisma init
-```
-
-- Open the prisma/schema.prisma file and configure your database connection details.
-
-```bash
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-```
-
-- Create a .env file in the project root directory and set the DATABASE_URL environment variable. Replace the placeholders with your database connection details:
-```bash
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA"
-```
-
-5. Creating the database schema
-6. Migrate the database schema: Use the following command to create and apply the initial database schema:
-
-```bash
-npx prisma migrate dev --name init
-```
-This command creates a new migration file based on your schema changes and applies it to your database.
-
-6. `Install Prisma Client:` Install the Prisma Client library by running the following command:
-```bash
-yarn add @prisma/client
-```
-
-This command installs the Prisma Client, which provides an interface to interact with your database.
-
-That's it! You have successfully set up the University Management Core Service Starter project. You can now start exploring and working with the codebase. Refer to the project documentation or README for further instructions on how to run and use the core service.
-
-Happy coding!
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/orders/create-order (POST)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/orders (GET)
+- https://assignment-8-prisma-postgres.vercel.app/api/v1/orders/c3b5c27c-a0a3-4a20-ba3d-4f89b02b232b (GET)
